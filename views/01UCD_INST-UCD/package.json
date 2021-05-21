@@ -1,0 +1,16 @@
+{
+  "name": "01UCD_V1",
+  "version": "1.0.0",
+  "description": "The development package allows you to configure :",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "primo-explore-external-search": "git+https://github.com/UCDavisLibrary/primo-explore-external-search.git",
+    "primo-explore-hathitrust-availability": "^2.6.2"
+  }
+}

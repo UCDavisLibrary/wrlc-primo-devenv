@@ -1,0 +1,26 @@
+.prm-primary-bg.prm-hue1, prm-browse-search-bar.prm-hue1, prm-journals-search-bar.prm-hue1, prm-search-bar.prm-hue1, prm-spinner.prm-hue1.overlay-cover.light-on-dark::after, prm-tags-search-bar.prm-hue1, prm-topbar .top-nav-bar {
+    background-color: #022851;
+}
+
+.prm-primary-bg, prm-browse-search-bar, prm-journals-search-bar, prm-search-bar, prm-spinner.overlay-cover.light-on-dark::after, prm-tags-search-bar {
+    background-color: #6884A3;
+}
+
+
+.bar.alert-bar, .classic-input .search-scope, .prm-alert-bg {
+    background-color: #ffffff;
+}
+
+
+/* Hide Tags in Detailed Display */
+[aria-label="Tags"]{display:none;}
+#tags{display:none;}
+
+/* Hide Tags in Menu Tab */
+a.md-button[aria-label="Tags"] {display:none;}
+a.md-button[aria-label="nui.mainmenu.label.tags"] {display:none;}
+
+
+prm-user-area md-fab-toolbar.md-is-open md-fab-trigger ._md-fab-toolbar-background {
+    background: #022851 !important;
+}
