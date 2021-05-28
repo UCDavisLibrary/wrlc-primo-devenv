@@ -7,7 +7,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var app = angular.module('viewCustom', ['angularLoad', 'hathiTrustAvailability', 'externalSearch']);
-var ucdlibVersion = "2.0.0-alpha1";
+var ucdlibVersion = "2.0.0-alpha2";
 
 //global functions
 function getParameterByName(name, url) {
@@ -416,10 +416,31 @@ angular.module('externalSearch', []).value('searchTargets', []).component('prmFa
       this.prmFacetCtrl = controller;
     },
     addExtSearch: function addExtSearch() {
-      var self = this;
-      setTimeout(function () {
-        if (self.prmFacetCtrl.$stateParams.search_scope == 'WorldCat') {
-          self.prmFacetCtrl.facetService.results.unshift({
+      var extSearchIntervalCt = 0;
+      var ctrl = this.prmFacetCtrl;
+      addFacet();
+      var lastFacetCt = ctrl.facets.length;
+      var currentFacetCt;
+
+      var checkExist = setInterval(function () {
+        currentFacetCt = ctrl.facets.length;
+        if (extSearchIntervalCt > 15) {
+          addFacet();
+          clearInterval(checkExist);
+        }
+
+        if (lastFacetCt != currentFacetCt) {
+          addFacet();
+          clearInterval(checkExist);
+        }
+
+        extSearchIntervalCt += 1;
+        lastFacetCt = currentFacetCt;
+      }, 500);
+
+      function addFacet() {
+        if (ctrl.facets.length < 1 || ctrl.facets[0].name !== 'External Search') {
+          ctrl.facets.unshift({
             name: 'External Search',
             displayedType: 'exact',
             limitCount: 0,
@@ -427,7 +448,7 @@ angular.module('externalSearch', []).value('searchTargets', []).component('prmFa
             values: undefined
           });
         }
-      }, 1200);
+      }
     }
   };
 });
