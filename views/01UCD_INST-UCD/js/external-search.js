@@ -1,9 +1,9 @@
 
 app.value('searchTargets', [{
-	"name": "Search in Worldcat",
-	"desc": "for advanced filtering options",
+	"name": "Worldcat",
 	"url": "https://110105.on.worldcat.org/v2/search?",
 	"img": "custom/01UCD_INST-UCD/img/worldcat-logo.png",
+	"alt": "WorldCat logo",
 	mapping: function (queries, filters) {
   	const query_mappings = {
     	'any': 'kw',
@@ -26,6 +26,22 @@ app.value('searchTargets', [{
     	return ''
   	}
 	}
+  },
+
+  {
+    "name": "Google Scholar",
+    "url": "https://scholar.google.com/scholar?q=",
+    "img": "custom/01UCD_INST-UCD/img/google-scholar.svg",
+    "alt": "Google Scholar Logo",
+    mapping: function (queries, filters) {
+      try {
+        return queries.map(part => part.split(",")[2] || "").join(' ')
+      }
+      catch (e) {
+        return ''
+      }
+    }
   }
 ]);
 
+app.value('externalSearchText', "Can't find what you're looking for? Search items held at other libraries.");

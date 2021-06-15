@@ -7,7 +7,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var app = angular.module('viewCustom', ['angularLoad', 'hathiTrustAvailability', 'externalSearch']);
-var ucdlibVersion = "2.0.0-alpha2";
+var ucdlibVersion = "2.0.0-alpha3";
 
 //global functions
 function getParameterByName(name, url) {
@@ -21,10 +21,10 @@ function getParameterByName(name, url) {
 }
 
 app.value('searchTargets', [{
-  "name": "Search in Worldcat",
-  "desc": "for advanced filtering options",
+  "name": "Worldcat",
   "url": "https://110105.on.worldcat.org/v2/search?",
   "img": "custom/01UCD_INST-UCD/img/worldcat-logo.png",
+  "alt": "WorldCat logo",
   mapping: function mapping(queries, filters) {
     var query_mappings = {
       'any': 'kw',
@@ -46,7 +46,23 @@ app.value('searchTargets', [{
       return '';
     }
   }
+}, {
+  "name": "Google Scholar",
+  "url": "https://scholar.google.com/scholar?q=",
+  "img": "custom/01UCD_INST-UCD/img/google-scholar.svg",
+  "alt": "Google Scholar Logo",
+  mapping: function mapping(queries, filters) {
+    try {
+      return queries.map(function (part) {
+        return part.split(",")[2] || "";
+      }).join(' ');
+    } catch (e) {
+      return '';
+    }
+  }
 }]);
+
+app.value('externalSearchText', "Can't find what you're looking for? Search items held at other libraries.");
 
 //START GOOGLE ANALYTICS
 
@@ -200,6 +216,97 @@ app.component('prmSearchResultAvailabilityLineAfter', {
   controller: 'prmSearchResultAvailabilityLineAfterController',
   template: '<hathi-trust-availability hide-online="true" hide-if-journal="false" ignore-copyright="true"></hathi-trust-availability><ga-hathi-load event-sent="{{$ctrl.gaHathiLoad()}}"></ga-hathi-load>'
 });
+angular.module('externalSearch', []).value('searchTargets', []).value('externalSearchText', "steve is great").component('prmFacetAfter', {
+  bindings: { parentCtrl: '<' },
+  controller: ['externalSearch', function (externalSearch) {
+    this.$onInit = function () {
+      externalSearch.setController(this.parentCtrl);
+      externalSearch.addExtSearch();
+    };
+  }]
+}).component('prmPageNavMenuAfter', {
+  controller: ['externalSearch', function (externalSearch) {
+    this.$onInit = function () {
+      if (externalSearch.getController()) externalSearch.addExtSearch();
+    };
+  }]
+}).component('prmFacetExactAfter', {
+  bindings: { parentCtrl: '<' },
+  template: '<div ng-if="name === \'External Search\'">\
+          <div ng-hide="$ctrl.parentCtrl.facetGroup.facetGroupCollapsed">\
+              <div class="section-content animate-max-height-variable">\
+                  <div ng-if="introText" id="external-search-intro">{{introText}}</div>\
+                  <div class="md-chips md-chips-wrap">\
+                      <div ng-repeat="target in targets" aria-live="polite" class="md-chip animate-opacity-and-scale facet-element-marker-local4">\
+                          <div class="md-chip-content layout-row" role="button" tabindex="0">\
+                              <strong dir="auto" title="{{ target.name }}">\
+                                  <a ng-href="{{ target.url + target.mapping(queries, filters) }}" target="_blank">\
+                                      <img ng-src="{{ target.img }}" width="22" height="22" alt="{{ target.alt }}" style="vertical-align:middle;"> {{ target.name }}\
+                                  </a>\
+                              </strong>\
+                          </div>\
+                      </div>\
+                  </div>\
+              </div>\
+          </div>\
+      </div>',
+  controller: ['$scope', '$location', 'searchTargets', 'externalSearchText', function ($scope, $location, searchTargets, externalSearchText) {
+    this.$onInit = function () {
+      $scope.name = this.parentCtrl.facetGroup.name;
+      $scope.targets = searchTargets;
+      $scope.introText = externalSearchText;
+      var query = $location.search().query;
+      var filter = $location.search().pfilter;
+      $scope.queries = Object.prototype.toString.call(query) === '[object Array]' ? query : query ? [query] : false;
+      $scope.filters = Object.prototype.toString.call(filter) === '[object Array]' ? filter : filter ? [filter] : false;
+    };
+  }]
+}).factory('externalSearch', function () {
+  return {
+    getController: function getController() {
+      return this.prmFacetCtrl || false;
+    },
+    setController: function setController(controller) {
+      this.prmFacetCtrl = controller;
+    },
+    addExtSearch: function addExtSearch() {
+      var extSearchIntervalCt = 0;
+      var ctrl = this.prmFacetCtrl;
+      addFacet();
+      var lastFacetCt = ctrl.facets.length;
+      var currentFacetCt;
+
+      var checkExist = setInterval(function () {
+        currentFacetCt = ctrl.facets.length;
+        if (extSearchIntervalCt > 15) {
+          addFacet();
+          clearInterval(checkExist);
+        }
+
+        if (lastFacetCt != currentFacetCt) {
+          addFacet();
+          clearInterval(checkExist);
+        }
+
+        extSearchIntervalCt += 1;
+        lastFacetCt = currentFacetCt;
+      }, 500);
+
+      function addFacet() {
+        if (ctrl.facets.length < 1 || ctrl.facets[0].name !== 'External Search') {
+          ctrl.facets.unshift({
+            name: 'External Search',
+            displayedType: 'exact',
+            limitCount: 0,
+            facetGroupCollapsed: false,
+            values: undefined
+          });
+        }
+      }
+    }
+  };
+});
+
 angular.module('hathiTrustAvailability', []).constant('hathiTrustBaseUrl', 'https://catalog.hathitrust.org/api/volumes/brief/json/').config(['$sceDelegateProvider', 'hathiTrustBaseUrl', function ($sceDelegateProvider, hathiTrustBaseUrl) {
   var urlWhitelist = $sceDelegateProvider.resourceUrlWhitelist();
   urlWhitelist.push(hathiTrustBaseUrl + '**');
@@ -362,94 +469,5 @@ angular.module('hathiTrustAvailability', []).constant('hathiTrustBaseUrl', 'http
                   <prm-icon external-link="" icon-type="svg" svg-icon-set="primo-ui" icon-definition="open-in-new"></prm-icon>\
                 </a>\
               </span>'
-});
-
-angular.module('externalSearch', []).value('searchTargets', []).component('prmFacetAfter', {
-  bindings: { parentCtrl: '<' },
-  controller: ['externalSearch', function (externalSearch) {
-    this.$onInit = function () {
-      externalSearch.setController(this.parentCtrl);
-      externalSearch.addExtSearch();
-    };
-  }]
-}).component('prmPageNavMenuAfter', {
-  controller: ['externalSearch', function (externalSearch) {
-    this.$onInit = function () {
-      if (externalSearch.getController()) externalSearch.addExtSearch();
-    };
-  }]
-}).component('prmFacetExactAfter', {
-  bindings: { parentCtrl: '<' },
-  template: '<div ng-if="name === \'External Search\'">\
-          <div ng-hide="$ctrl.parentCtrl.facetGroup.facetGroupCollapsed">\
-              <div class="section-content animate-max-height-variable">\
-                  <div class="md-chips md-chips-wrap">\
-                      <div ng-repeat="target in targets" aria-live="polite" class="md-chip animate-opacity-and-scale facet-element-marker-local4">\
-                          <div class="md-chip-content layout-row" role="button" tabindex="0">\
-                              <strong dir="auto" title="{{ target.name }}">\
-                                  <a ng-href="{{ target.url + target.mapping(queries, filters) }}" target="_blank">\
-                                      <img ng-src="{{ target.img }}" width="22" height="22" alt="{{ target.alt }}" style="vertical-align:middle;"> {{ target.name }}\
-                                  </a>\
-                              </strong>\
-                          </div>\
-                      </div>\
-                  </div>\
-              </div>\
-          </div>\
-      </div>',
-  controller: ['$scope', '$location', 'searchTargets', function ($scope, $location, searchTargets) {
-    this.$onInit = function () {
-      $scope.name = this.parentCtrl.facetGroup.name;
-      $scope.targets = searchTargets;
-      var query = $location.search().query;
-      var filter = $location.search().pfilter;
-      $scope.queries = Object.prototype.toString.call(query) === '[object Array]' ? query : query ? [query] : false;
-      $scope.filters = Object.prototype.toString.call(filter) === '[object Array]' ? filter : filter ? [filter] : false;
-    };
-  }]
-}).factory('externalSearch', function () {
-  return {
-    getController: function getController() {
-      return this.prmFacetCtrl || false;
-    },
-    setController: function setController(controller) {
-      this.prmFacetCtrl = controller;
-    },
-    addExtSearch: function addExtSearch() {
-      var extSearchIntervalCt = 0;
-      var ctrl = this.prmFacetCtrl;
-      addFacet();
-      var lastFacetCt = ctrl.facets.length;
-      var currentFacetCt;
-
-      var checkExist = setInterval(function () {
-        currentFacetCt = ctrl.facets.length;
-        if (extSearchIntervalCt > 15) {
-          addFacet();
-          clearInterval(checkExist);
-        }
-
-        if (lastFacetCt != currentFacetCt) {
-          addFacet();
-          clearInterval(checkExist);
-        }
-
-        extSearchIntervalCt += 1;
-        lastFacetCt = currentFacetCt;
-      }, 500);
-
-      function addFacet() {
-        if (ctrl.facets.length < 1 || ctrl.facets[0].name !== 'External Search') {
-          ctrl.facets.unshift({
-            name: 'External Search',
-            displayedType: 'exact',
-            limitCount: 0,
-            facetGroupCollapsed: false,
-            values: undefined
-          });
-        }
-      }
-    }
-  };
 });
 })();

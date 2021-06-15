@@ -42,9 +42,24 @@
 }
 
 .prm-primary-bg, prm-browse-search-bar, prm-journals-search-bar, prm-search-bar, prm-spinner.overlay-cover.light-on-dark::after, prm-tags-search-bar {
-    background-color: #6884A3;
+    background-color: #14447A;
 }
 
+prm-search-bar .advanced-search-backdrop {
+    background-color: #14447A;
+}
+
+prm-search-bar .search-switch-buttons .md-button.switch-to-simple {
+    color: #ffffff;
+}
+
+prm-search-bar .search-switch-buttons .md-button.switch-to-simple:hover:not([disabled]) {
+    color: #53738c;
+    background-color: #fff;
+}
+prm-main-menu[menu-type=full] .md-button .md-headline {
+    color: #FFBF00;
+}
 
 .bar.alert-bar, .classic-input .search-scope, .prm-alert-bg {
     background-color: #ffffff;
@@ -62,6 +77,11 @@ a.md-button[aria-label="nui.mainmenu.label.tags"] {display:none;}
 
 prm-user-area md-fab-toolbar.md-is-open md-fab-trigger ._md-fab-toolbar-background {
     background: #022851 !important;
+}
+#external-search-intro {
+    padding-left: 1em;
+    padding-right: 1em;
+    color: #6d6d6d;
 }
 span.umnHathiTrustLink {
   margin-left: -5px;
