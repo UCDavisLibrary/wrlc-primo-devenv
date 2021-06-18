@@ -78,6 +78,11 @@ a.md-button[aria-label="nui.mainmenu.label.tags"] {display:none;}
 prm-user-area md-fab-toolbar.md-is-open md-fab-trigger ._md-fab-toolbar-background {
     background: #022851 !important;
 }
+#external-search-intro {
+    padding-left: 1em;
+    padding-right: 1em;
+    color: #6d6d6d;
+}
 span.umnHathiTrustLink {
   margin-left: -5px;
 }
@@ -89,9 +94,4 @@ span.umnHathiTrustLink md-icon svg {
 
 span.umnHathiTrustLink:hover md-icon svg {
   filter: grayscale(0%);
-}
-#external-search-intro {
-    padding-left: 1em;
-    padding-right: 1em;
-    color: #6d6d6d;
 }

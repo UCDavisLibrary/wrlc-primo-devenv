@@ -1,5 +1,4 @@
 vars.env
-views/01WRLC_SCF:SCF_DEV
 packages/*.zip
 node_modules
 .DS_Store
