@@ -7,7 +7,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var app = angular.module('viewCustom', ['angularLoad', 'hathiTrustAvailability', 'externalSearch']);
-var ucdlibVersion = "2.0.0-alpha4";
+var ucdlibVersion = "2.0.0-alpha5";
+window.ucdlibVersion = ucdlibVersion;
 
 //global functions
 function getParameterByName(name, url) {
@@ -19,6 +20,10 @@ function getParameterByName(name, url) {
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
+app.run(function ($templateCache) {
+  $templateCache.put('prmSearchBarAfter.html', '<div class="uc-library-search-logo">\r\n    <md-button aria-label="UC Library Search" ng-click="$ctrl.navigateToHomePage()">\r\n      <img show-gt-xs hide-xs ng-src="custom/01UCD_INST-UCD/img/ucls.png" alt="UC Library Search"/>\r\n    </md-button>\r\n</div>');
+});
 
 app.value('searchTargets', [{
   "name": "Worldcat",
@@ -158,7 +163,7 @@ function track_hathi_finds($scope, $element) {
 app.component('prmSearchBarAfter', {
   bindings: { parentCtrl: '<' },
   controller: 'SearchBarAfterController',
-  templateUrl: 'custom/01UCD_INST-UCD/html/prmSearchBarAfter.html'
+  templateUrl: 'custom/01UCD_INST-UCD/html/templates/prmSearchBarAfter.html'
 });
 
 app.controller('SearchBarAfterController', ['$location', '$window', function ($location, $window) {
@@ -178,6 +183,7 @@ app.controller('SearchBarAfterController', ['$location', '$window', function ($l
     return true;
   };
 }]);
+
 window.browzine = {
   api: "https://public-api.thirdiron.com/public/v1/libraries/75",
   apiKey: "c5635332-0b38-4ded-9adc-b16be01f079c",

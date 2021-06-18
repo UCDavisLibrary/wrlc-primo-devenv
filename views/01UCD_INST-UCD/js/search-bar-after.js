@@ -6,7 +6,7 @@
 app.component('prmSearchBarAfter', {
     bindings: { parentCtrl: '<' },
     controller: 'SearchBarAfterController',
-    templateUrl: 'custom/01UCD_INST-UCD/html/prmSearchBarAfter.html',
+    templateUrl: 'custom/01UCD_INST-UCD/html/templates/prmSearchBarAfter.html',
 });
 
 app.controller('SearchBarAfterController', ['$location', '$window', function($location, $window){

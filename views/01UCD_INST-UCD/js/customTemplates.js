@@ -1,0 +1,1 @@
+app.run(function($templateCache) {$templateCache.put('prmSearchBarAfter.html','<div class="uc-library-search-logo">\r\n    <md-button aria-label="UC Library Search" ng-click="$ctrl.navigateToHomePage()">\r\n      <img show-gt-xs hide-xs ng-src="custom/01UCD_INST-UCD/img/ucls.png" alt="UC Library Search"/>\r\n    </md-button>\r\n</div>');});
