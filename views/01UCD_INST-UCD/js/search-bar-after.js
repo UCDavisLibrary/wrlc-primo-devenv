@@ -1,9 +1,6 @@
-/* UC Library Search logo
- * Code adapted from CSU Central Package by David Walker
- * https://github.com/dswalker/csu-central-package/
- *
- */
-app.component('prmSearchBarAfter', {
+
+export default function setSearchBarAfter(app){
+  app.component('prmSearchBarAfter', {
     bindings: { parentCtrl: '<' },
     controller: 'SearchBarAfterController',
     templateUrl: 'custom/01UCD_INST-UCD/html/templates/prmSearchBarAfter.html',
@@ -26,3 +23,5 @@ app.controller('SearchBarAfterController', ['$location', '$window', function($lo
     return true;
   };
 }]);
+}
+
