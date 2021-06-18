@@ -1,5 +1,5 @@
 var app = angular.module('viewCustom', ['angularLoad', 'hathiTrustAvailability', 'externalSearch']);
-var ucdlibVersion = "2.0.0-alpha3";
+var ucdlibVersion = "2.0.0-alpha4";
 
 //global functions
 function getParameterByName(name, url) {
