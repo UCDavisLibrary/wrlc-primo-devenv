@@ -10,7 +10,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@webcomponents/webcomponentsjs": "^2.5.0",
     "primo-explore-external-search": "git+https://github.com/UCDavisLibrary/primo-explore-external-search.git",
     "primo-explore-hathitrust-availability": "^2.6.2"
+  },
+  "dependencies": {
+    "lit-element": "^2.5.1"
   }
 }

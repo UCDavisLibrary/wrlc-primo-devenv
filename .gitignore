@@ -2,3 +2,6 @@ vars.env
 packages/*.zip
 node_modules
 .DS_Store
+views/01UCD_INST-UCD/js/custom.js
+views/01UCD_INST-UCD/js/custom.js.map
+gulp

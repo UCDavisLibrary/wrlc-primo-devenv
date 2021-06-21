@@ -5,12 +5,17 @@ import setExternalSearchValues from './external-search';
 import setSearchBarAfter from './search-bar-after';
 import setSearchResultAvailabilityAfter from './search-result-availability-line-after';
 
+// web components
+import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js';
+import 'regenerator-runtime/runtime';
+import './components/hello-world';
+
 
 loadGoogleAnalytics();
 
 // Increment version before release
 // Doesn't actually bust the cache, but can be helpful info
-var ucdlibVersion = "2.0.0-alpha6";
+var ucdlibVersion = "2.0.0-alpha7";
 window.ucdlibVersion = ucdlibVersion;
 
 // register our angular app

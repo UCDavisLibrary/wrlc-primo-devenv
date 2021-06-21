@@ -14,6 +14,8 @@ services:
       - type: bind
         source: ./views
         target: /home/node/primo-explore-devenv/primo-explore/custom
+      - "./gulp:/home/node/primo-explore-devenv/gulp"
     env_file:
       - vars.env
-    command: [ "/bin/bash", "-c", "node_modules/.bin/gulp run --view 01UCD_INST-UCD --proxy https://na07.primo.exlibrisgroup.com:443 --ve --browserify" ]
+    command: bash -c "tail -f /dev/null"
+    #command: [ "/bin/bash", "-c", "node_modules/.bin/gulp run --view 01UCD_INST-UCD --proxy https://na07.primo.exlibrisgroup.com:443 --ve --browserify" ]
