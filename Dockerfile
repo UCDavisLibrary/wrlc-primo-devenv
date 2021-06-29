@@ -1,4 +1,4 @@
-FROM node:boron
+FROM node:fermium
 
 # Install primo-explore-devenv
 WORKDIR /home/node
@@ -13,4 +13,4 @@ EXPOSE 3001
 
 
 # run
-CMD [ "/bin/bash", "-c", "node_modules/.bin/gulp run --view $VIEW --proxy $PROXY --ve" ]
+CMD [ "/bin/bash", "-c", "node_modules/.bin/gulp run --view $VIEW --proxy $PROXY --ve --browserify" ]

@@ -39,3 +39,14 @@ a.md-button[aria-label="nui.mainmenu.label.tags"] {display:none;}
 prm-user-area md-fab-toolbar.md-is-open md-fab-trigger ._md-fab-toolbar-background {
     background: #022851 !important;
 }
+
+.homepage md-card md-card-actions {
+    margin-left: 0;
+    margin-right: 0;
+}
+.homepage md-card .md-headline {
+    font-weight: 600;
+}
+.homepage md-card ul {
+    margin-top: 0;
+}

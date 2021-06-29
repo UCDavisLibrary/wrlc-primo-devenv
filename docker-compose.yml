@@ -1,9 +1,9 @@
 version: '3.4'
 
 services:
-
-  devenv:
-    image: wrlc/wrlc-primo-devenv
+  primo:
+    image: ucdlib/primo-devenv
+    build: ./
     ports:
       - 8003:8003
       - 3001:3001
@@ -16,3 +16,5 @@ services:
         target: /home/node/primo-explore-devenv/primo-explore/custom
     env_file:
       - vars.env
+    #command: bash -c "tail -f /dev/null"
+    command: [ "/bin/bash", "-c", "node_modules/.bin/gulp run --view 01UCD_INST-UCD --proxy https://na07.primo.exlibrisgroup.com:443 --ve" ]

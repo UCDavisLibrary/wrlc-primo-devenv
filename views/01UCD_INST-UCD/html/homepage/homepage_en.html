@@ -1,61 +1,78 @@
 
-<!--
-<md-content layout-xs="column" layout="row">
-<div flex-xs flex="100" layout="column">
-    <md-card class="default-card" style="background-color:#BA0C2F;color:white;">
-        <md-card-title>
-            <md-card-title-text>
-                <span class="md-headline" style="font-weight:400;">Primo Request Unavailable</span>
-            </md-card-title-text>
-        </md-card-title>
-        <md-card-content>
-          Primo Request will be unavailable 3/14/2020 - 3/30/2020. If you need help getting material between these dates, please contact us at 530-752-8792 or shieldscirc@ucdavis.edu.
-        </md-card-content>
-
-    </md-card>
-</div>
-</md-content>
--->
-
-
-<md-content layout-xs="column" layout="row">
-    <div flex-xs flex="100" layout="column">
+<div layout="row" layout-wrap class="homepage">
+    <div flex-xs="100" flex=50>
         <md-card class="default-card">
             <md-card-title>
                 <md-card-title-text>
-                    <span class="md-headline" style="font-weight:400;">What are you Searching?</span>
+                    <span class="md-headline">For full access:</span>
                 </md-card-title-text>
             </md-card-title>
             <md-card-content>
-                <p>
-                   Catalog + Articles searches materials found in the Library Catalog, including books and ebooks, journals, maps, government documents, films, musical scores, manuscripts and photos, plus citations and full-text articles from 200+ databases. Catalog + Articles contains a broad range of resources, so it is a helpful starting point for cross-disciplinary searching.
-</br></br>
+                <ul>
+                    <li><a href="/discovery/login?vid=01UCD_INST:UCD">Sign in to your account</a></li>
+                
+                <li>
+                    <a href="https://www.library.ucdavis.edu/connect-from-off-campus/">Connect to the Library VPN</a>
+                    <br> if you are off-campus
+                </li>
+            </ul>
+            </md-card-content>
+        </md-card>
 
-<b>Search Tips:</b><blockquote>
-<li>Use AND, OR, NOT (uppercase) to combine search concepts
-</br><i>Shakespeare AND sonnets
-</br>	      College OR university
-</br>	      Programming languages NOT javascript</i>
-	    </li>
-<li>
-Use the wildcard operators ? and * to search for word variations
-</br><i>Wom?n (searches for woman and women)
-</br>                  Librar* (searches for library, libraries, librarian, librarians)</i>
-</li>
-<li>
-Use quotation marks to search for phrases
-</br><i>“animal welfare”
-</br>                  “plant ecology”</i>
-</li>
-</blockquote>
-</br>
-To search additional resources, use the <a href="https://www.library.ucdavis.edu/browse-subjects/">Subject Guides</a> to identify databases and other tools by discipline, or browse the <a href="https://www.library.ucdavis.edu/?post_type=database&s=">Databases A-Z list</a> by database name.
-</br></br>
-<b>Questions? <a href="https://www.library.ucdavis.edu/help/">Ask for Help</a></b>
-
-                </p>
+        <md-card class="default-card">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Use UC Library Search to find:</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <ul>
+                    <li>Articles</li>
+                    <li>Books (print and electronic)</li>
+                    <li>Dissertations</li>
+                    <li>Films, videos, music</li>
+                    <li>Government documents</li>
+                    <li>Course reserves</li>
+                </ul>
+                <div>Search all UC Libraries or limit to UC Davis on the results page.</div>
 
             </md-card-content>
         </md-card>
     </div>
-</md-content>
+
+    
+    <div flex-xs="100" flex="50">
+        <md-card class="default-card">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Get help:</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <ul>
+                    <li><a href="https://www.library.ucdavis.edu/library-search-faq/">FAQ & Search Tips</a></li>
+                    <li><a href="https://www.library.ucdavis.edu/help/">Ask a librarian</a></li>
+                    <li>To focus your search, consult our <a href="https://www.library.ucdavis.edu/browse-subjects/">Subject Guides.</a></li>
+                </ul>
+            </md-card-content>
+        </md-card>
+
+        
+        
+        <md-card class="default-card">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Where’s Melvyl?</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <div>UC Library Search replaces Melvyl. The new system holds all the collections of the UC Libraries, with links to Worldcat for materials in libraries outside the UC system. Borrowing and renewing materials from other libraries is now easier. The name Melvyl has retired.</div>
+                <md-card-actions layout="column">
+                    <md-button class="md-primary" href="https://www.library.ucdavis.edu/news/uc-library-search-a-new-library-catalog-for-the-entire-uc-system/">Learn more</md-button>
+                </md-card-actions>
+            </md-card-content>
+        </md-card>
+
+    </div>
+
+</div>
