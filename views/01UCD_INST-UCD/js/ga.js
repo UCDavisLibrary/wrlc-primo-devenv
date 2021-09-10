@@ -8,48 +8,5 @@
     ga('create', 'UA-65988958-7', 'auto');
     ga('send', 'pageview');
   
-    // Tracks if a record result is in the hathi trust
-    // Attached to the prmSearchResultAvailabilityLineAfter component in browzine.js
-    function track_hathi_finds($scope, $element) {
-  
-      // check for hathi full text
-      let children = $element.children();
-      for (let [k, child] of Object.entries(children)) {
-        if (child.localName == "hathi-trust-availability") {
-          let hathi_links = child.getElementsByTagName('a');
-          if (hathi_links.length > 0) {
-            let already_sent = $element.nativeElement.querySelector('ga-hathi-load')
-            if (already_sent && already_sent.getAttribute('event-sent') == 'true') {
-              return true
-            }
-  
-            // send google analytics event
-            let hathi_record = hathi_links[0].getAttribute('href');
-            let primo_query = getParameterByName('query') ? getParameterByName('query') : '';
-            ga('send', {
-                hitType: 'event',
-                eventCategory: 'Hathi Load',
-                eventAction: hathi_record,
-                eventLabel: primo_query
-              });
-            hathi_links[0].addEventListener("click", function(){
-              ga('send', 'event', {
-                eventCategory: 'Hathi Click',
-                eventAction: hathi_record,
-                eventLabel: primo_query,
-                transport: 'beacon'
-              });
-  
-            });
-            //console.log("Event sent: ", hathi_record, primo_query);
-            return true
-  
-          }
-          return false
-        }
-      }
-      return false
-    }
-  
   //END GOOGLE ANALYTICS
   

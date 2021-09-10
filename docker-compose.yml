@@ -17,4 +17,4 @@ services:
     env_file:
       - vars.env
     #command: bash -c "tail -f /dev/null"
-    command: [ "/bin/bash", "-c", "node_modules/.bin/gulp run --view 01UCD_INST-UCD --proxy https://na07.primo.exlibrisgroup.com:443 --ve" ]
+    command: [ "/bin/bash", "-c", "node_modules/.bin/gulp run --view 01UCD_INST-UCD --proxy https://search.library.ucdavis.edu:443 --ve" ]

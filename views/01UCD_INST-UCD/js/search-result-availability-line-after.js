@@ -21,18 +21,5 @@ window.browzine = {
   document.head.appendChild(browzine.script);
   
   app.controller('prmSearchResultAvailabilityLineAfterController', function ($scope, $element) {
-    var vm = this;
     window.browzine.primo.searchResult($scope);
-  
-    vm.gaHathiLoad = gaHathiLoad;
-    function gaHathiLoad() {
-      return track_hathi_finds($scope, $element);
-    }
-  });
-  
-  // attach hathitrust to the same component
-  app.component('prmSearchResultAvailabilityLineAfter', {
-    bindings: { parentCtrl: '<' },
-    controller: 'prmSearchResultAvailabilityLineAfterController',
-    template: '<hathi-trust-availability hide-online="true" hide-if-journal="false" ignore-copyright="true"></hathi-trust-availability><ga-hathi-load event-sent="{{$ctrl.gaHathiLoad()}}"></ga-hathi-load>'
   });

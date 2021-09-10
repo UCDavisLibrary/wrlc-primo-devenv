@@ -2,12 +2,8 @@
 "use strict";
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 var app = angular.module('viewCustom', ['angularLoad', 'hathiTrustAvailability', 'externalSearch']);
-var ucdlibVersion = "2.0.0-alpha6";
+var ucdlibVersion = "2.0.1";
 window.ucdlibVersion = ucdlibVersion;
 
 //global functions
@@ -80,79 +76,6 @@ app.value('externalSearchText', "Can't find what you're looking for? Search item
 ga('create', 'UA-65988958-7', 'auto');
 ga('send', 'pageview');
 
-// Tracks if a record result is in the hathi trust
-// Attached to the prmSearchResultAvailabilityLineAfter component in browzine.js
-function track_hathi_finds($scope, $element) {
-
-  // check for hathi full text
-  var children = $element.children();
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = Object.entries(children)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var _step$value = _slicedToArray(_step.value, 2),
-          k = _step$value[0],
-          child = _step$value[1];
-
-      if (child.localName == "hathi-trust-availability") {
-        var hathi_links = child.getElementsByTagName('a');
-        if (hathi_links.length > 0) {
-          var _ret = function () {
-            var already_sent = $element.nativeElement.querySelector('ga-hathi-load');
-            if (already_sent && already_sent.getAttribute('event-sent') == 'true') {
-              return {
-                v: true
-              };
-            }
-
-            // send google analytics event
-            var hathi_record = hathi_links[0].getAttribute('href');
-            var primo_query = getParameterByName('query') ? getParameterByName('query') : '';
-            ga('send', {
-              hitType: 'event',
-              eventCategory: 'Hathi Load',
-              eventAction: hathi_record,
-              eventLabel: primo_query
-            });
-            hathi_links[0].addEventListener("click", function () {
-              ga('send', 'event', {
-                eventCategory: 'Hathi Click',
-                eventAction: hathi_record,
-                eventLabel: primo_query,
-                transport: 'beacon'
-              });
-            });
-            //console.log("Event sent: ", hathi_record, primo_query);
-            return {
-              v: true
-            };
-          }();
-
-          if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-        }
-        return false;
-      }
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-
-  return false;
-}
-
 //END GOOGLE ANALYTICS
 
 /* UC Library Search logo
@@ -207,20 +130,7 @@ browzine.script.src = "https://s3.amazonaws.com/browzine-adapters/primo/browzine
 document.head.appendChild(browzine.script);
 
 app.controller('prmSearchResultAvailabilityLineAfterController', function ($scope, $element) {
-  var vm = this;
   window.browzine.primo.searchResult($scope);
-
-  vm.gaHathiLoad = gaHathiLoad;
-  function gaHathiLoad() {
-    return track_hathi_finds($scope, $element);
-  }
-});
-
-// attach hathitrust to the same component
-app.component('prmSearchResultAvailabilityLineAfter', {
-  bindings: { parentCtrl: '<' },
-  controller: 'prmSearchResultAvailabilityLineAfterController',
-  template: '<hathi-trust-availability hide-online="true" hide-if-journal="false" ignore-copyright="true"></hathi-trust-availability><ga-hathi-load event-sent="{{$ctrl.gaHathiLoad()}}"></ga-hathi-load>'
 });
 angular.module('externalSearch', []).value('searchTargets', []).value('externalSearchText', "").component('prmFacetAfter', {
   bindings: { parentCtrl: '<' },
